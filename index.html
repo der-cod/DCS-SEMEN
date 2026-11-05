@@ -1,0 +1,119 @@
+<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>DCS di Industri Semen</title>
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f6e56"><link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/icon-192.png"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="DCS Semen">
+<style>
+:root{--bg:#faf9f5;--fg:#1f1e1d;--mut:#5f5e5a;--card:#fff;--bd:#d9d6cc;--ac:#0f6e56;--acbg:#e1f5ee;--wa:#993c1d;--wabg:#faece7;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1f1e1d;--fg:#f1efe8;--mut:#b4b2a9;--card:#2c2c2a;--bd:#444441;--ac:#5dcaa5;--acbg:#04342c;--wa:#f0997b;--wabg:#4a1b0c}}
+:root[data-theme="dark"]{--bg:#1f1e1d;--fg:#f1efe8;--mut:#b4b2a9;--card:#2c2c2a;--bd:#444441;--ac:#5dcaa5;--acbg:#04342c;--wa:#f0997b;--wabg:#4a1b0c}
+html{scroll-padding-top:calc(56px + env(safe-area-inset-top,0px));scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.w{max-width:860px;margin:0 auto;padding:0 16px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--bd);z-index:5;overflow-x:auto;white-space:nowrap}
+nav a{display:inline-block;padding:14px 10px;color:var(--mut);text-decoration:none;font-size:14px}
+nav a:hover{color:var(--ac)}
+header{padding:36px 0 12px}h1{font-size:30px;line-height:1.25;margin:0 0 8px}h2{font-size:22px;margin:0 0 8px}h3{font-size:16px;margin:12px 0 4px}
+.sub{color:var(--mut);margin:0}
+section{padding:28px 0 8px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;margin:12px 0}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+button{font:inherit;font-size:14px;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:8px;padding:8px 12px;cursor:pointer}
+button:hover{border-color:var(--ac)}button.on{background:var(--acbg);border-color:var(--ac);color:var(--ac)}
+.lv{display:block;width:100%;text-align:left;margin:6px 0}
+.tag{display:inline-block;font-size:12px;background:var(--acbg);color:var(--ac);border-radius:6px;padding:2px 8px;margin-right:6px}
+.warn{background:var(--wabg);color:var(--wa);border-radius:8px;padding:10px 12px;font-size:14px;margin-top:10px}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{border:1px solid var(--bd);padding:8px;text-align:left;vertical-align:top}th{background:var(--acbg);color:var(--ac)}
+.tw{overflow-x:auto}
+.ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;font-size:14px}
+.ctl label{display:block}input[type=range]{width:100%}
+canvas{width:100%;height:260px;display:block}
+.lg{font-size:13px;color:var(--mut)}.lg b{font-weight:500}
+.opt{display:block;width:100%;text-align:left;margin:6px 0}.opt.ok{border-color:var(--ac);background:var(--acbg)}.opt.no{border-color:var(--wa);background:var(--wabg)}
+footer{padding:24px 0 40px;color:var(--mut);font-size:13px}
+ul{padding-left:20px;margin:6px 0}
+</style></head><body>
+<nav><div class="w"><a href="#apa">Apa itu DCS</a><a href="#level">Hirarki</a><a href="#proses">Peta proses semen</a><a href="#pid">Simulasi loop</a><a href="#banding">DCS vs PLC vs SCADA</a><a href="#kuis">Kuis</a></div></nav>
+<div class="w">
+<header><h1>DCS di pabrik semen</h1><p class="sub">Belajar sistem kontrol terdistribusi lewat proses yang sudah Anda kenal: kalsinasi, pembakaran klinker, dan penggilingan. Untuk mahasiswa magang Teknik Kimia.</p><button id="inst" hidden>Pasang aplikasi</button></header>
+
+<section id="apa"><h2>Apa itu DCS?</h2>
+<div class="card"><p>DCS (Distributed Control System) membagi fungsi pengendalian ke banyak controller yang tersebar di area pabrik, lalu memusatkan pemantauan, pengendalian, dan optimasi di ruang kontrol (CCR).</p>
+<p>Bagi insinyur kimia: DCS adalah alat untuk menjaga variabel proses (suhu, tekanan, laju alir, level, komposisi gas) pada nilai target di berbagai unit operasi sekaligus. Sistem ini pertama kali diperkenalkan sekitar tahun 1975 (Yokogawa CENTUM dan Honeywell TDC2000). Produsen besar antara lain Emerson, Yokogawa, ABB, Honeywell, dan Invensys.</p>
+<p><span class="tag">Kata kunci</span>Terdistribusi = kegagalan satu controller tidak menghentikan seluruh pabrik, karena logika kontrol tersebar dan umumnya redundan.</p></div></section>
+
+<section id="level"><h2>Hirarki kontrol, versi pabrik semen</h2><p class="sub">Klik tiap level.</p>
+<div class="card" id="lvbox"></div></section>
+
+<section id="proses"><h2>Peta DCS pada proses semen</h2><p class="sub">Pilih area proses untuk melihat apa yang dikendalikan.</p>
+<div class="row" id="pbtn"></div><div class="card" id="pdet"></div>
+<p class="lg">Angka suhu adalah kisaran tipikal untuk pembelajaran. Nilai operasi aktual mengikuti desain dan prosedur masing-masing pabrik.</p></section>
+
+<section id="pid"><h2>Simulasi loop kontrol: suhu outlet coal mill</h2>
+<p class="sub">Controller menjaga suhu gas outlet dengan mengatur bukaan damper udara panas. Ubah setpoint dan parameter PI, lalu lihat responsnya.</p>
+<div class="card"><div class="ctl">
+<label>Setpoint (SP): <b id="spv">70</b> °C<input id="sp" type="range" min="50" max="90" value="70"></label>
+<label>Gain (Kp): <b id="kpv">1.5</b><input id="kp" type="range" min="0.2" max="8" step="0.1" value="1.5"></label>
+<label>Waktu integral (Ti): <b id="tiv">40</b> detik<input id="ti" type="range" min="5" max="120" value="40"></label>
+<label><input id="dist" type="checkbox"> Gangguan: batubara basah pada detik 170</label></div>
+<canvas id="cv"></canvas>
+<p class="lg"><b style="color:#1d9e75">PV suhu</b> (kiri, °C) &nbsp; <b style="color:#888780">SP</b> &nbsp; <b style="color:#d85a30">OP bukaan damper</b> (kanan, %) &nbsp; <span id="os"></span></p>
+<p class="lg">Coba: naikkan Kp tinggi dan lihat osilasi. Turunkan Ti terlalu kecil dan lihat overshoot. Di proses nyata, loop yang berosilasi pada coal mill berisiko bagi keselamatan.</p></div></section>
+
+<section id="banding"><h2>DCS, PLC, SCADA, dan HMI</h2>
+<div class="card tw"><table><tr><th></th><th>DCS</th><th>PLC</th><th>SCADA</th></tr>
+<tr><td>Fokus</td><td>Proses kontinu dengan banyak loop analog</td><td>Logika dan sekuens mesin</td><td>Supervisi dan akuisisi data</td></tr>
+<tr><td>Contoh di semen</td><td>Kiln, raw mill, preheater</td><td>Packing plant, conveyor, crusher paket</td><td>Pemantauan utilitas atau area tersebar</td></tr>
+<tr><td>Redundansi</td><td>Umumnya bawaan</td><td>Opsional</td><td>Tergantung desain</td></tr></table>
+<p>HMI adalah bagian dari SCADA, sedangkan SCADA bukan bagian dari HMI. Di lapangan, batas ketiganya kabur: banyak pabrik memakai DCS untuk proses utama dan PLC untuk paket mesin yang datanya masuk ke DCS lewat OPC.</p>
+<p><span class="tag">OPC</span>Standar komunikasi antar sistem dari vendor berbeda. OPC Classic (DA, HDA, AE) berbasis Windows, sedangkan OPC UA lebih aman dan tidak terikat platform.</p></div></section>
+
+<section id="kuis"><h2>Kuis singkat</h2><div class="card" id="qz"></div></section>
+<footer>Sebagian materi mengacu pada modul PLC, SCADA, HMI, DCS, OPC (Unit Learning and Development Design, 2022) dan disesuaikan untuk industri semen.</footer></div>
+<script>
+const $=i=>document.getElementById(i);
+const LV=[["Level 4: Perusahaan","ERP, perencanaan produksi, biaya per ton semen. Kerangka waktu: hari sampai bulan."],
+["Level 3: Operasi pabrik","Historian, laporan produksi, laboratorium dan data kualitas (Blaine, LSF). Menit sampai jam."],
+["Level 2: Supervisi","Operator station di CCR dan engineering station. Operator memantau trend kiln, mengubah SP, merespons alarm."],
+["Level 1: Kontrol","Controller dan modul I/O yang menjalankan PID, interlock, dan sekuens start/stop motor. Berjalan tiap sekian ratus milidetik."],
+["Level 0: Lapangan","Termokopel, transmitter tekanan, load cell weigh feeder, analyzer O2/CO, control valve, damper, motor, VFD."]];
+$("lvbox").innerHTML=LV.map((l,i)=>`<button class="lv${i==2?" on":""}" data-i="${i}">${l[0]}</button>`).join("")+`<p id="lvd">${LV[2][1]}</p>`;
+$("lvbox").onclick=e=>{const b=e.target.closest("button");if(!b)return;document.querySelectorAll(".lv").forEach(x=>x.classList.remove("on"));b.classList.add("on");$("lvd").textContent=LV[b.dataset.i][1]};
+const PR=[
+["Raw mill","Penggilingan dan pengeringan bahan baku (batu kapur, tanah liat, pasir silika) menjadi raw meal. Gas panas dari preheater dipakai untuk mengeringkan.","Laju umpan, tekanan diferensial mill, suhu outlet (damper gas panas), kecepatan separator, vibrasi.","Komposisi umpan (LSF, SM, AM) dijaga dari analyzer online dengan mengatur proporsi bahan.","Interlock sekuens conveyor dan proteksi vibrasi mill."],
+["Preheater dan calciner","Panas gas kiln memanaskan raw meal bertahap di siklon. Kalsinasi CaCO3 menjadi CaO dan CO2 (endotermik) terjadi sekitar 850-900 °C.","Suhu outlet calciner (laju bahan bakar calciner), draft ID fan, tekanan tiap stage siklon, O2 dan CO gas.","Derajat kalsinasi sebelum masuk kiln menentukan beban termal kiln.","Alarm tekanan naik di siklon sebagai tanda penyumbatan (build-up)."],
+["Kiln","Klinkerisasi di zona pembakaran, sekitar 1400-1450 °C: pembentukan C3S, C2S, C3A, C4AF.","Umpan kiln, kecepatan putar kiln, bahan bakar utama, O2 dan CO di kiln inlet, suhu burning zone, arus atau torsi drive kiln.","Rasio umpan terhadap bahan bakar dan kecepatan kiln menjaga kualitas klinker (free lime).","Interlock flame failure, proteksi drive kiln, dan sekuens start/stop bahan bakar."],
+["Clinker cooler","Klinker panas didinginkan oleh udara; panas dipulihkan sebagai udara sekunder dan tersier.","Kecepatan grate (menjaga tekanan ruang bawah grate), kipas pendingin, suhu klinker keluar.","Kontrol tekanan grate menjaga tebal bed klinker.","Alarm suhu tinggi dan proteksi grate."],
+["Coal mill","Menggiling dan mengeringkan batubara menjadi serbuk halus untuk kiln dan calciner.","Suhu outlet mill, aliran udara, laju umpan, kadar CO dan O2, tekanan.","Suhu outlet dijaga di kisaran aman dengan damper udara panas (lihat simulasi di atas).","Risiko kebakaran dan ledakan debu batubara: alarm CO, interlock suhu, dan sistem inert/pemadam."],
+["Cement mill","Menggiling klinker, gypsum, dan bahan tambahan menjadi semen dengan kehalusan target.","Rasio umpan klinker:gypsum:aditif, kecepatan separator, suhu outlet (water spray), tekanan mill.","Suhu outlet mill dijaga agar gypsum tidak terdehidrasi berlebihan.","Interlock sekuens dan proteksi mill."]];
+$("pbtn").innerHTML=PR.map((p,i)=>`<button data-i="${i}" class="${i==2?"on":""}">${p[0]}</button>`).join("");
+function showP(i){const p=PR[i];$("pdet").innerHTML=`<h3>${p[0]}</h3><p>${p[1]}</p><h3>Variabel yang dikendalikan</h3><p>${p[2]}</p><h3>Hubungan dengan kimia proses</h3><p>${p[3]}</p><div class="warn"><b style="font-weight:500">Pengaman:</b> ${p[4]}</div>`}
+showP(2);
+$("pbtn").onclick=e=>{const b=e.target.closest("button");if(!b)return;document.querySelectorAll("#pbtn button").forEach(x=>x.classList.remove("on"));b.classList.add("on");showP(b.dataset.i)};
+function sim(){
+const sp1=+$("sp").value,kp=+$("kp").value,ti=+$("ti").value,dist=$("dist").checked;
+$("spv").textContent=sp1;$("kpv").textContent=kp.toFixed(1);$("tiv").textContent=ti;
+const N=300,tau=25,dl=6,sp0=60;let pv=sp0,op=(sp0-40)/0.6,e1=0;const buf=Array(dl).fill(op),P=[],O=[],S=[];
+for(let t=0;t<N;t++){const sp=t<20?sp0:sp1,d=dist&&t>=170?-10:0,e=sp-pv;
+op+=kp*((e-e1)+e/ti);op=Math.max(0,Math.min(100,op));e1=e;buf.push(op);const u=buf.shift();
+pv+=(40+0.6*u+d-pv)/tau;P.push(pv);O.push(op);S.push(sp)}
+const aft=P.slice(20,170);let os=sp1>sp0?Math.max(...aft)-sp1:sp1<sp0?sp1-Math.min(...aft):0;
+$("os").textContent=sp1==sp0?"":"Overshoot: "+Math.max(0,os).toFixed(1)+" °C";
+const c=$("cv"),r=devicePixelRatio||1,W=c.clientWidth,H=260;c.width=W*r;c.height=H*r;const g=c.getContext("2d");g.scale(r,r);
+const col=getComputedStyle(document.body).color,pd=28,x=t=>pd+t/(N-1)*(W-2*pd),yv=v=>H-pd-(v-40)/60*(H-2*pd),yo=v=>H-pd-v/100*(H-2*pd);
+g.strokeStyle=col;g.globalAlpha=.2;g.lineWidth=1;for(let i=0;i<=4;i++){const y=pd+i*(H-2*pd)/4;g.beginPath();g.moveTo(pd,y);g.lineTo(W-pd,y);g.stroke()}
+g.globalAlpha=.7;g.fillStyle=col;g.font="11px system-ui";[40,60,80,100].forEach(v=>g.fillText(v,2,yv(v)+4));[0,50,100].forEach(v=>g.fillText(v,W-pd+4,yo(v)+4));g.fillText("detik 0",pd,H-8);g.fillText("300",W-pd-18,H-8);
+g.globalAlpha=1;const ln=(a,f,cl,w,ds)=>{g.beginPath();a.forEach((v,t)=>t?g.lineTo(x(t),f(v)):g.moveTo(x(t),f(v)));g.strokeStyle=cl;g.lineWidth=w;g.setLineDash(ds||[]);g.stroke()};
+ln(O,yo,"#d85a30",1.2);ln(S,yv,"#888780",1.5,[5,4]);ln(P,yv,"#1d9e75",2.5)}
+["sp","kp","ti","dist"].forEach(i=>$(i).oninput=sim);addEventListener("resize",sim);sim();
+const Q=[["Apa arti kata “terdistribusi” pada DCS?","Fungsi kontrol dibagi ke banyak controller yang tersebar di pabrik",["Semua logika berjalan di satu komputer pusat","Fungsi kontrol dibagi ke banyak controller yang tersebar di pabrik","Pabrik terdiri dari banyak ruang kontrol terpisah"]],
+["Suhu burning zone kiln 1400 °C, SP 1450 °C. Berapa error dan arahnya?","Error +50 °C, bahan bakar perlu dinaikkan",["Error -50 °C, bahan bakar dikurangi","Error +50 °C, bahan bakar perlu dinaikkan","Error 0 °C"]],
+["Mana yang paling cocok dikendalikan oleh DCS?","Loop suhu dan tekanan di kiln dan preheater",["Conveyor sederhana ON/OFF di packing","Loop suhu dan tekanan di kiln dan preheater","Pencatatan stok gudang"]],
+["Mengapa suhu outlet coal mill dipantau ketat?","Risiko kebakaran dan ledakan debu batubara",["Agar semen lebih halus","Risiko kebakaran dan ledakan debu batubara","Untuk menghemat air"]],
+["Apa hubungan HMI dan SCADA?","HMI adalah bagian dari SCADA",["SCADA adalah bagian dari HMI","HMI adalah bagian dari SCADA","Keduanya tidak berhubungan"]]];
+let qi=0,sc=0;function rq(){const q=$("qz");if(qi>=Q.length){q.innerHTML=`<h3>Skor Anda: ${sc} dari ${Q.length}</h3><button id="rs">Ulangi</button>`;$("rs").onclick=()=>{qi=0;sc=0;rq()};return}
+const [t,a,o]=Q[qi];q.innerHTML=`<p class="lg">Soal ${qi+1} dari ${Q.length}</p><p><b style="font-weight:500">${t}</b></p>`+o.map(x=>`<button class="opt">${x}</button>`).join("")+`<p id="fb" class="lg"></p>`;
+q.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{if(q.dataset.done==qi)return;q.dataset.done=qi;const ok=b.textContent==a;if(ok)sc++;b.classList.add(ok?"ok":"no");q.querySelectorAll(".opt").forEach(z=>{if(z.textContent==a)z.classList.add("ok")});$("fb").innerHTML=(ok?"Benar. ":"Belum tepat. ")+`<button id="nx">Lanjut</button>`;$("nx").onclick=()=>{qi++;rq()}})}
+rq();
+let dp=null;addEventListener("beforeinstallprompt",e=>{e.preventDefault();dp=e;$("inst").hidden=false});
+$("inst").onclick=async()=>{if(!dp)return;dp.prompt();await dp.userChoice;dp=null;$("inst").hidden=true};
+addEventListener("appinstalled",()=>{$("inst").hidden=true});
+if("serviceWorker" in navigator&&location.protocol.startsWith("http")){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
+</script></body></html>
